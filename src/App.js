@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,26 +11,25 @@ import Home from "./page/home/Home";
 import Login from "./page/login/Login";
 import Register from "./page/register/Register";
 import Watch from "./page/watch/Watch";
+import { AuthContext } from "./authContext/AuthContext";
 
 function App() {
-  const user = true;
+  const { user } = useContext(AuthContext);
   return (
     <Router>
       <Switch>
         <Route exact path="/">
           {user ? <Home /> : <Redirect to="/register" />}
         </Route>
-        <Route exact path="/register">
+        <Route path="/register">
           {!user ? <Register /> : <Redirect to="/" />}
         </Route>
-        <Route exact path="/login">
-          {!user ? <Login /> : <Redirect to="/" />}
-        </Route>
+        <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
 
         {user && (
           <>
             <Route path="/movies">
-              <Home type="movies" />
+              <Home type="movie" />
             </Route>
             <Route path="/series">
               <Home type="series" />
